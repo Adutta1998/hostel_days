@@ -8,9 +8,16 @@
           filled
           label="Amount in Rs."
           color="green"
+          :disabled="user == null"
           v-model="fund.amount"
         ></v-text-field>
-        <v-btn rounded color="green" dark @click="addTransaction('fund')">
+        <v-btn
+          rounded
+          color="green"
+          dark
+          @click="addTransaction('fund')"
+          :disabled="user == null"
+        >
           <v-icon>mdi-content-save</v-icon>
         </v-btn>
       </v-card-text>
@@ -28,11 +35,18 @@
         ></v-text-field>
         <v-text-field
           filled
+          :disabled="user == null"
           label="Purpose"
           color="red"
           v-model="fund.purpose"
         ></v-text-field>
-        <v-btn rounded color="red" dark @click="addTransaction('expense')">
+        <v-btn
+          rounded
+          color="red"
+          dark
+          @click="addTransaction('expense')"
+          :disabled="user == null"
+        >
           <v-icon>mdi-delete-forever</v-icon>
         </v-btn>
       </v-card-text>

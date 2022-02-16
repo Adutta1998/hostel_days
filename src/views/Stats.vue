@@ -35,6 +35,7 @@ import {
   Timestamp,
   where,
 } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 const gradients = ["#f72047", "#ffd200", "#1feaea"];
 
 export default {
@@ -43,6 +44,7 @@ export default {
     gradientDirection: "top",
     data: [],
     loading: true,
+    user: null,
     headers: [
       {
         text: "Id",
@@ -89,6 +91,19 @@ export default {
         return parseInt(e.amount);
       });
       // console.log(this.data);
+    });
+
+    const auth = getAuth();
+
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        console.log(user);
+        this.user = user;
+      } else {
+        console.log("Not Authenticated");
+        this.user = null;
+        this.$router.replace("/");
+      }
     });
   },
 };
