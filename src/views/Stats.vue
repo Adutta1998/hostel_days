@@ -6,14 +6,14 @@
     </span>
     <v-card class="blue-grey darken-4">
       <v-card-text>
-        <v-sparkline
-          :smooth="16"
-          :gradient="['#c4fff7', '#c1f80a']"
-          :line-width="3"
-          :value="value"
-          auto-draw
-          stroke-linecap="round"
-        ></v-sparkline>
+        <div v-if="value.length > 0">
+          <BarChart
+            :options="chartOptions"
+            :chartData="value"
+            label="Transactions"
+            :borderColors="borderColorData"
+          />
+        </div>
       </v-card-text>
     </v-card>
     <v-data-table
@@ -36,13 +36,16 @@ import {
   where,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-const gradients = ["#f72047", "#ffd200", "#1feaea"];
-
+import BarChart from "../components/BarChart.vue";
 export default {
+  components: {
+    BarChart,
+  },
   data: () => ({
     value: [],
-    gradientDirection: "top",
     data: [],
+    borderColorData: [],
+    gradientDirection: "top",
     loading: true,
     user: null,
     headers: [
@@ -57,6 +60,9 @@ export default {
       { text: "Purpose", value: "purpose" },
       { text: "User", value: "username" },
     ],
+    chartOptions: {
+      maintainAspectRatio: false,
+    },
   }),
   beforeMount() {
     let date = new Date();
@@ -88,6 +94,11 @@ export default {
       });
       this.value = this.data.map((e) => {
         // console.log(e.amount);
+        if (e.type == "expense") {
+          this.borderColorData.push("#ff0000");
+        } else {
+          this.borderColorData.push("#00ff00");
+        }
         return parseInt(e.amount);
       });
       // console.log(this.data);
