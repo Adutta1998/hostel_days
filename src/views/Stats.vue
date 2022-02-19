@@ -95,9 +95,9 @@ export default {
       this.value = this.data.map((e) => {
         // console.log(e.amount);
         if (e.type == "expense") {
-          this.borderColorData.push("#ff0000");
+          this.borderColorData.push("rgba(192, 46, 46,1)");
         } else {
-          this.borderColorData.push("#00ff00");
+          this.borderColorData.push("rgba(122, 201, 67,1)");
         }
         return parseInt(e.amount);
       });
